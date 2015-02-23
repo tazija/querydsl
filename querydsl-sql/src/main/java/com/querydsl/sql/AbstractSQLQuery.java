@@ -378,7 +378,7 @@ public abstract class AbstractSQLQuery<Q extends AbstractSQLQuery<Q>> extends Pr
     }
 
     @Override
-    public <RT> SearchResults<RT> listResults(Expression<RT> expr) {
+    public <RT> QueryResults<RT> listResults(Expression<RT> expr) {
         QueryModifiers originalModifiers = queryMixin.getMetadata().getModifiers();
         try {
             if (configuration.getTemplates().isCountViaAnalytics()
@@ -401,15 +401,15 @@ public abstract class AbstractSQLQuery<Q extends AbstractSQLQuery<Q>> extends Pr
                 } else {
                     total = count();
                 }
-                return new SearchResults<RT>(results, originalModifiers, total);
+                return new QueryResults<RT>(results, originalModifiers, total);
 
             } else {
                 queryMixin.setProjection(expr);
                 long total = count();
                 if (total > 0) {
-                    return new SearchResults<RT>(list(expr), originalModifiers, total);
+                    return new QueryResults<RT>(list(expr), originalModifiers, total);
                 } else {
-                    return SearchResults.emptyResults();
+                    return QueryResults.emptyResults();
                 }
             }
 

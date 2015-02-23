@@ -26,7 +26,7 @@ import com.mysema.commons.lang.CloseableIterator;
 import com.querydsl.core.*;
 import com.querydsl.core.QueryFlag.Position;
 import com.querydsl.core.support.Expressions;
-import com.querydsl.core.support.ProjectableQuery;
+import com.querydsl.core.support.ProjectableQueryBase;
 import com.querydsl.core.support.QueryMixin;
 import com.querydsl.core.types.*;
 import com.querydsl.core.types.expr.Wildcard;
@@ -39,7 +39,7 @@ import com.querydsl.core.types.template.SimpleTemplate;
  *
  * @param <Q> concrete subtype
  */
-public abstract class ProjectableSQLQuery<Q extends ProjectableSQLQuery<Q> & Query<Q>> extends ProjectableQuery<Q> implements SQLCommonQuery<Q> {
+public abstract class ProjectableSQLQuery<Q extends ProjectableSQLQuery<Q> & Query<Q>> extends ProjectableQueryBase<Q> implements SQLCommonQuery<Q> {
 
     private static final Path<?> defaultQueryAlias = new PathImpl(Object.class, "query");
 
@@ -285,7 +285,7 @@ public abstract class ProjectableSQLQuery<Q extends ProjectableSQLQuery<Q> & Que
     }
 
     @Override
-    public SearchResults<Tuple> listResults(Expression<?>... args) {
+    public QueryResults<Tuple> listResults(Expression<?>... args) {
         return listResults(queryMixin.createProjection(args));
     }
 
